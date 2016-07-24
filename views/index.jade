@@ -2,6 +2,7 @@ extends layout
 
 block append head
   script(type='text/javascript', src='/dronestream/nodecopter-client.js')
+  script(src='../script.js')
 
 -# for developing the client, use those url:s
 -# script(type='text/javascript', src='/dronestream/vendor/broadway/sylvester.js')
@@ -17,6 +18,7 @@ block append head
 block append bodyscripts
   script.
     var copterStream = new NodecopterStream(document.querySelector('#dronestream'));
-
+   
 block content
   div#dronestream(width=640, height=360)
+  div#grid(width=640, height=360)

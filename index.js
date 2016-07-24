@@ -12,14 +12,14 @@ var path=require('path');
 var currentx, currenty, targetx, targety;
 const midX=150;//Current x cooordinate of drone
 const midY=75;//Current y coordinate
-const SPEED_FORWARD;
+/*const SPEED_FORWARD;
 const TIME_90_DEGREES;
 const TIME_180_DEGREES;
 const TIME_FORWARD_COORDINATE;//Time to go forward one coordinate
 const TIME_SIDE_COORDINATE;//Sideways
 const TIME_UP_COORDINATE;//Up-down
 const SPEED_SIDE;
-const SPEED_UP;
+const SPEED_UP;*/
 
 var isAirborne=0; //0 if on ground, 1 if airborne
 
