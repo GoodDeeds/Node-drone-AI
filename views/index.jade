@@ -1,11 +1,13 @@
 extends layout
 
 block append head
-  script(type='text/javascript', src='jquery.min.js')
+  link(href="/bootstrap.min.css", rel="stylesheet")
+  script(type='text/javascript', src='/jquery.min.js')
+  script(src='/bootstrap.min.js')
   script(type='text/javascript', src='/dronestream/nodecopter-client.js')
-  script(type='text/javascript', src='script.js')
-  link(href='bootstrap.min.js', rel='stylesheet')
-  
+  script(type='text/javascript', src='/script.js')
+
+
 
 -# for developing the client, use those url:s
 -# script(type='text/javascript', src='/dronestream/vendor/broadway/sylvester.js')
@@ -21,10 +23,8 @@ block append head
 block append bodyscripts
   script.
     var copterStream = new NodecopterStream(document.querySelector('#dronestream'));
-   
+
 block content
     div#dronestream(style="width: 640px; height: 360px")
     div#takeoff.btn.btn-default.btn-sm Takeoff
     div#land.btn.btn-default.btn-sm Land
-    
-    
