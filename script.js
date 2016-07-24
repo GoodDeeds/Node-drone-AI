@@ -7,7 +7,7 @@ function getCursorPosition(canvas, event) {
     x=Math.floor(x);
     y=Math.floor(y);
     console.log("x: " + x + " y: " + y);
-    $.post("newcommand/",{ "x":x,"y":y });
+    $.post("newcommand/?x="+x+",y="+y);
 }
 $(document).ready(()=>{
     $("#grid").click(function(e){

@@ -34,22 +34,18 @@ app.get('/',function(req,res){
 });
 
 var router=express.Router();
-router.route('/')
-.post(function(req,res){
+app.post('/newcommand', function(req,res){
    
-        console.log(req.body); 
+       // console.log(req.body); 
     currentx=midX;
     currenty=midY;
-    targetx=req.body.x;
-    targety=req.body.y;
+    targetx=req.query.x;
+    targety=req.query.y;
     navigate(targetx-currentx, targety-currenty);
     
 });
 
-app.use('/newcommand',router);
-
-router.route('/')
-.post(function(req,res){
+app.post('/takeoff', function(req,res){
     if(isAirborne){
         console.log("Already in the air");
         
@@ -64,10 +60,8 @@ router.route('/')
     }
 });
 
-app.use('/takeoff',router);
 
-router.route('/')
-.post(function(req,res){
+app.post('/land', function(req,res){
    if(!isAirborne){
        console.log("Already landed");
    }
@@ -80,7 +74,7 @@ router.route('/')
     }
 });
 
-app.use('/land',router);
+
 
 /*var server = http.createServer(function(req, res) {
   require("fs").createReadStream(__dirname + "/index.html").pipe(res);
