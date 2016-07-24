@@ -10,7 +10,7 @@ function getCursorPosition(canvas, event) {
     $.post("newcommand/?x="+x+",y="+y);
 }
 $(document).ready(()=>{
-    $("#grid").click(function(e){
+    $("#dronestream").click(function(e){
         getCursorPosition(this, event);   
     });
     $("#takeoff").click(function(){

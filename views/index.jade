@@ -4,6 +4,7 @@ block append head
   script(type='text/javascript', src='https://code.jquery.com/jquery-1.12.0.min.js')
   script(type='text/javascript', src='/dronestream/nodecopter-client.js')
   script(type='text/javascript', src='script.js')
+  link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
   
 
 -# for developing the client, use those url:s
@@ -22,5 +23,8 @@ block append bodyscripts
     var copterStream = new NodecopterStream(document.querySelector('#dronestream'));
    
 block content
-  div#dronestream(width=640, height=360)
-  div#grid(width=640, height=360)
+    div#dronestream(style="width: 640px; height: 360px")
+    div#takeoff.btn.btn-default.btn-sm Takeoff
+    div#land.btn.btn-default.btn-sm Land
+    
+    
