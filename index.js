@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 var arDrone = require('ar-drone');
 var client = arDrone.createClient();
 var morgan =require('morgan');
+var app=express();
+var routes =require('./routes');	
+var path=require('path');
 var currentx, currenty, targetx, targety;
 const midX=150;//Current x cooordinate of drone
 const midY=75;//Current y coordinate
@@ -20,18 +23,20 @@ const SPEED_UP;
 
 var isAirborne=0; //0 if on ground, 1 if airborne
 
-var port=5555;
-var app=express();
+var server=http.createServer(app);
 
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
 
-app.use(morgan('dev'));
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade', { pretty: true });
+   // app.use(favicon());
+   // app.use(logger('dev'));
+	app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/',function(req,res){
-    drone.listen(app);//Check if this works
-    require("fs").createReadStream(__dirname + "/index.html").pipe(res);
-});
+
+drone.listen(server);
+server.listen(3000);
+
+app.get('/',routes.index);
 
 var router=express.Router();
 app.post('/newcommand', function(req,res){
@@ -73,20 +78,6 @@ app.post('/land', function(req,res){
         });
     }
 });
-
-
-
-/*var server = http.createServer(function(req, res) {
-  require("fs").createReadStream(__dirname + "/index.html").pipe(res);
-});
-
-drone.listen(server);*/
-
-app.listen(port, function(req,res){
-    console.log("Server running");
-});
-
-//server.listen(5555);
 
 function navigate(diffRight, diffDown){
     //Need algorithm to navigate, and ensure that multiple commands don't cause random motion
