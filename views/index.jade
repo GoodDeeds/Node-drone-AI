@@ -2,7 +2,8 @@ extends layout
 
 block append head
   script(type='text/javascript', src='/dronestream/nodecopter-client.js')
-  script(src='../script.js')
+  script(type='text/javascript', src='script.js')
+  script(type='text/javascript', src='https://code.jquery.com/jquery-1.12.0.min.js')
 
 -# for developing the client, use those url:s
 -# script(type='text/javascript', src='/dronestream/vendor/broadway/sylvester.js')
