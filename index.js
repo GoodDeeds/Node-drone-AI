@@ -5,18 +5,18 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var arDrone = require('ar-drone');
 var client = arDrone.createClient();
-
+var morgan =require('morgan');
 var currentx, currenty, targetx, targety;
-const var midX=150;//Current x cooordinate of drone
-const var midY=75;//Current y coordinate
-const var SPEED_FORWARD;
-const var TIME_90_DEGREES;
-const var TIME_180_DEGREES;
-const var TIME_FORWARD_COORDINATE;//Time to go forward one coordinate
-const var TIME_SIDE_COORDINATE;//Sideways
-const var TIME_UP_COORDINATE;//Up-down
-const var SPEED_SIDE;
-const var SPEED_UP;
+const midX=150;//Current x cooordinate of drone
+const midY=75;//Current y coordinate
+const SPEED_FORWARD;
+const TIME_90_DEGREES;
+const TIME_180_DEGREES;
+const TIME_FORWARD_COORDINATE;//Time to go forward one coordinate
+const TIME_SIDE_COORDINATE;//Sideways
+const TIME_UP_COORDINATE;//Up-down
+const SPEED_SIDE;
+const SPEED_UP;
 
 var isAirborne=0; //0 if on ground, 1 if airborne
 
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
-var route=express.Router();
+var router=express.Router();
 router.route('/')
 .post(function(req,res){
    
@@ -83,7 +83,7 @@ app.use('/land',router);
 
 drone.listen(server);*/
 
-app.listen(port, function(){
+app.listen(port, function(req,res){
     drone.listen(app);//Check if this works
     require("fs").createReadStream(__dirname + "/index.html").pipe(res);
 });
