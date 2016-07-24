@@ -28,6 +28,11 @@ app.use(bodyParser.json());
 
 app.use(morgan('dev'));
 
+app.get('/',function(req,res){
+    drone.listen(app);//Check if this works
+    require("fs").createReadStream(__dirname + "/index.html").pipe(res);
+});
+
 var router=express.Router();
 router.route('/')
 .post(function(req,res){
@@ -84,8 +89,7 @@ app.use('/land',router);
 drone.listen(server);*/
 
 app.listen(port, function(req,res){
-    drone.listen(app);//Check if this works
-    require("fs").createReadStream(__dirname + "/index.html").pipe(res);
+    console.log("Server running");
 });
 
 //server.listen(5555);
