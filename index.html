@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <title>Stream as module</title>
+ <!--   <script src="/dronestream/nodecopter-client.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+    <h1 id="heading">Stream through a normal require("http").createServer</h1>
+    <div id="container" style="width: 640px; height: 360px position:relative">
+   <!-- <div id="droneStream" style="width: 640px; height: 360px; padding: 0px 0px 0px 0px">   </div>-->
+    <canvas id="grid" style="  border:1px solid #000000; padding: 0px 0px 0px 0px"></canvas>    
+    </div>
+    <div id="controlbuttons">
+        <div id="takeoff" class="btn btn-default btn-sm ">Takeoff</div>
+        <div id="land" class="btn btn-default btn-sm ">Land</div>
+    </div>
+    
+
+  <!--  <script type="text/javascript" charset="utf-8">
+        new NodecopterStream(document.getElementById("droneStream"));
+    </script>-->
+</body>
+</html>

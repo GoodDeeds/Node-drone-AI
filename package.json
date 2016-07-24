@@ -10,6 +10,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "ar-drone": "^0.3.3",
+    "dronestream": "^1.1.1",
     "ejs": "^2.4.2",
     "express": "^4.14.0",
     "html": "0.0.10",
