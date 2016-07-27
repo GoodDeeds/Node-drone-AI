@@ -48,12 +48,17 @@ app.post('/newcommand', function(req,res){
     currenty=midY;
     targetx=req.query.x;
     targety=req.query.y;
+    console.log("Received coordinates x: "+targetx+" y: "+targety);
     if(clickEnabled){
       clickEnabled=0;
       navigate(targetx-currentx, targety-currenty, function(){
         clickEnabled=1;
+        console.log("Successfully navigated, click now reenabled");
       });
 
+    }
+    else{
+      console.log("Click for navigation is disabled");
     }
 
 });
@@ -65,10 +70,11 @@ app.post('/takeoff', function(req,res){
       clickEnabled=1;
       console.log("Taken off");
       isAirborne=1;
-      res.end(clickEnabled);
+      res.end(JSON.stringify({"clickEnabled": clickEnabled}));
     }
     else{
-      res.end(clickEnabled);
+      console.log("Click for takeoff is disabled");
+      res.end(JSON.stringify({"clickEnabled": clickEnabled}));
     }
 
   });
@@ -81,10 +87,11 @@ app.post('/takeoff', function(req,res){
         clickEnabled=1;
         console.log("Landed");
         isAirborne=0;
-        res.end(clickEnabled);
+        res.end(JSON.stringify({"clickEnabled": clickEnabled}));
       }
       else{
-        res.end(clickEnabled);
+        console.log("Click for landing is disabled");
+        res.end(JSON.stringify({"clickEnabled": clickEnabled}));
       }
 
 

@@ -16,18 +16,19 @@ $(document).ready(()=>{
     });
     $("#takeoff").click(function(){
         $.post("takeoff/", function(data){
-          if(data==1){
-            $(this).prop('disabled', true);
+          console.log(data);
+          if(jQuery.parseJSON(data).clickEnabled){
+            $("#takeoff").prop('disabled', true);
             $("#land").prop('disabled', false);
           }
         });
     });
     $("#land").click(function(){
         $.post("land/", function(data){
-          if(data==1){
-            $(this).prop('disabled', true);
+          if(jQuery.parseJSON(data).clickEnabled){
+            $("#land").prop('disabled', true);
             $("#takeoff").prop('disabled', false);
-          }          
+          }
         });
     });
 });
