@@ -7,7 +7,7 @@ var arDrone = require('ar-drone');
 var client = arDrone.createClient();
 var morgan =require('morgan');
 var app=express();
-var routes =require('./routes');	
+var routes =require('./routes');
 var path=require('path');
 var currentx, currenty, targetx, targety;
 const midX=150;//Current x cooordinate of drone
@@ -20,6 +20,8 @@ const TIME_SIDE_COORDINATE;//Sideways
 const TIME_UP_COORDINATE;//Up-down
 const SPEED_SIDE;
 const SPEED_UP;*/
+
+var clickEnabled=1;
 
 var isAirborne=0; //0 if on ground, 1 if airborne
 
@@ -40,46 +42,62 @@ app.get('/',routes.index);
 
 var router=express.Router();
 app.post('/newcommand', function(req,res){
-   
-       // console.log(req.body); 
+
+       // console.log(req.body);
     currentx=midX;
     currenty=midY;
     targetx=req.query.x;
     targety=req.query.y;
-    navigate(targetx-currentx, targety-currenty);
-    
+    if(clickEnabled){
+      clickEnabled=0;
+      navigate(targetx-currentx, targety-currenty, function(){
+        clickEnabled=1;
+      });
+
+    }
+
 });
 
 app.post('/takeoff', function(req,res){
-    if(isAirborne){
-        console.log("Already in the air");
-        
-        
+    if(clickEnabled){
+      clickEnabled=0;
+      //Need to ensure that takeoff is possible, not yet done
+      client.takeoff(function(){
+            clickEnabled=1;
+            console.log("Taken off");
+            isAirborne=1;
+            res.end(clickEnabled);
+
+        });
     }
     else{
-        //Need to ensure that takeoff is possible, not yet done
-        client.takeoff(function(){
-           console.log("Taken off"); 
-            isAirborne=1;
-        });
+      res.end(clickEnabled);
     }
-});
+
+  });
 
 
-app.post('/land', function(req,res){
-   if(!isAirborne){
-       console.log("Already landed");
-   }
-    else{ 
-        //Need to ensure that terrain is suitable, not yet done
+  app.post('/land', function(req,res){
+      //Need to ensure that terrain is suitable, not yet done
+      if(clickEnabled){
+        clickEnabled=0;
         client.land(function(){
-           console.log("Landed");
+            clickEnabled=1;
+            console.log("Landed");
             isAirborne=0;
+            res.end(clickEnabled);
         });
-    }
+      }
+      else{
+        res.end(clickEnabled);
+      }
+
+
+
+
 });
 
-function navigate(diffRight, diffDown){
+function navigate(diffRight, diffDown, callback){
     //Need algorithm to navigate, and ensure that multiple commands don't cause random motion
     if(!isAirborne){
         console.log("Need to takeoff first");
@@ -91,8 +109,10 @@ function navigate(diffRight, diffDown){
         client.after(TIME_FORWARD_COORDINATE,function(){
             this.stop();
         });
-        
+
     }
+
+    callback();
 }
 
 //Return whether it is safe to move in given direction or not

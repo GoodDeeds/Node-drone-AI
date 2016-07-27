@@ -1,3 +1,4 @@
+
 /*var canvas=document.getElementById("grid");
 console.log(canvas);*/
 function getCursorPosition(canvas, event) {
@@ -11,14 +12,22 @@ function getCursorPosition(canvas, event) {
 }
 $(document).ready(()=>{
     $("#dronestream").click(function(e){
-        getCursorPosition(this, event);   
+        getCursorPosition(this, event);
     });
     $("#takeoff").click(function(){
-        $.post("takeoff/");
-        
+        $.post("takeoff/", function(data){
+          if(data==1){
+            $(this).prop('disabled', true);
+            $("#land").prop('disabled', false);
+          }
+        });
     });
     $("#land").click(function(){
-        $.post("land/");
+        $.post("land/", function(data){
+          if(data==1){
+            $(this).prop('disabled', true);
+            $("#takeoff").prop('disabled', false);
+          }          
+        });
     });
 });
-
