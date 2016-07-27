@@ -5,10 +5,11 @@ var http = require('http');
 var bodyParser = require('body-parser');
 var arDrone = require('ar-drone');
 var client = arDrone.createClient();
-var morgan =require('morgan');
-var app=express();
-var routes =require('./routes');
-var path=require('path');
+var morgan = require('morgan');
+var app = express();
+var routes = require('./routes');
+var path= require('path');
+var async = require('async');
 var currentx, currenty, targetx, targety;
 const midX=150;//Current x cooordinate of drone
 const midY=75;//Current y coordinate
@@ -19,7 +20,8 @@ const TIME_FORWARD_COORDINATE;//Time to go forward one coordinate
 const TIME_SIDE_COORDINATE;//Sideways
 const TIME_UP_COORDINATE;//Up-down
 const SPEED_SIDE;
-const SPEED_UP;*/
+const SPEED_UP;
+const FORWARD_COORDINATE*/
 
 var clickEnabled=1;
 
@@ -104,13 +106,94 @@ function navigate(diffRight, diffDown, callback){
         return;
     }
     //Incomplete
-    while(!isObstacle("front")){
+    /*while(!isObstacle("front")){
         client.front(SPEED_FORWARD);
         client.after(TIME_FORWARD_COORDINATE,function(){
             this.stop();
         });
-
+    }*/
+    if(diffRight>0){
+      async.forever(
+        function(next){
+          isObstacle("right", function(data, diffRight){
+            if(data!=1 && diffRight>0){
+              client.right(SPEED_SIDE);
+              client.after(TIME_SIDE_COORDINATE, function(){
+                this.stop();
+                diffRight--;
+              });
+              next();
+            }
+          });
+        }
+      );
     }
+    else if(diffRight<0){
+      async.forever(
+        function(next){
+          isObstacle("left", function(data, diffRight){
+            if(data!=1 && diffRight<0){
+              client.left(SPEED_SIDE);
+              client.after(TIME_SIDE_COORDINATE, function(){
+                this.stop();
+                diffRight++;
+              });
+              next();
+            }
+          });
+        }
+      );
+    }
+    if(diffDown>0){
+      async.forever(
+        function(next){
+          isObstacle("down", function(data, diffDown){
+            if(data!=1 && diffDown>0){
+              client.down(SPEED_UP;
+              client.after(TIME_UP_COORDINATE, function(){
+                this.stop();
+                diffDown--;
+              });
+              next();
+            }
+          });
+        }
+      );
+    }
+    else if(diffDown<0){
+      async.forever(
+        function(next){
+          isObstacle("up", function(data, diffDown){
+            if(data!=1 && diffDown<0){
+              client.up(SPEED_UP);
+              client.after(TIME_UP_COORDINATE, function(){
+                this.stop();
+                diffDown++;
+              });
+              next();
+            }
+          });
+        }
+      );
+    }
+    var forwarddist;
+
+    async.forever(
+      function(next){
+          isObstacle("front", function(data, forwarddist){
+            if(data!=1 && forwarddist<FORWARD_COORDINATE){
+              client.front(SPEED_FORWARD);
+              client.after(TIME_FORWARD_COORDINATE, function(){
+                this.stop();
+                forwarddist--;
+              });
+              next();
+            }
+          });
+        }
+    );
+
+
 
     callback();
 }
