@@ -66,12 +66,12 @@ app.post('/takeoff', function(req,res){
             clickEnabled=1;
             console.log("Taken off");
             isAirborne=1;
-            res.end(clickEnabled);
+            res.end(JSON.stringify({"clickEnabled": clickEnabled}));
 
         });
     }
     else{
-      res.end(clickEnabled);
+      res.end(JSON.stringify({"clickEnabled": clickEnabled}));
     }
 
   });
@@ -85,11 +85,11 @@ app.post('/takeoff', function(req,res){
             clickEnabled=1;
             console.log("Landed");
             isAirborne=0;
-            res.end(clickEnabled);
+            res.end(JSON.stringify({"clickEnabled": clickEnabled}));
         });
       }
       else{
-        res.end(clickEnabled);
+        res.end(JSON.stringify({"clickEnabled": clickEnabled}));
       }
 
 
