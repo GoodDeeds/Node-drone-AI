@@ -9,6 +9,7 @@ var morgan =require('morgan');
 var app=express();
 var routes =require('./routes');
 var path=require('path');
+var net = require('net');
 var currentx, currenty, targetx, targety;
 const midX=150;//Current x cooordinate of drone
 const midY=75;//Current y coordinate
@@ -99,8 +100,22 @@ app.post('/takeoff', function(req,res){
 
 });
 
+app.post('/sensor', function(req, res){
+  side = req.query.side;
+  distance[side] = req.query.d;
+
+});
+
 function navigate(diffRight, diffDown, callback){
     //Need algorithm to navigate, and ensure that multiple commands don't cause random motion
     console.log("In navigate function()");
+    isObstacle("front");
+    isObstacle("left");
+    isObstacle("right");
     callback();
+
+}
+
+function isObstacle(direction){
+  console.log(distance[side]);
 }
