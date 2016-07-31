@@ -63,8 +63,7 @@ app.post('/newcommand', function(req,res){
 });
 
 app.post('/takeoff', function(req,res){
-    if(clickEnabled){
-      clickEnabled=0;
+
       //Need to ensure that takeoff is possible, not yet done
       client.takeoff(function(){
             clickEnabled=1;
@@ -73,28 +72,21 @@ app.post('/takeoff', function(req,res){
             res.end(JSON.stringify({"clickEnabled": clickEnabled}));
 
         });
-    }
-    else{
-      res.end(JSON.stringify({"clickEnabled": clickEnabled}));
-    }
+
 
   });
 
 
   app.post('/land', function(req,res){
       //Need to ensure that terrain is suitable, not yet done
-      if(clickEnabled){
-        clickEnabled=0;
+
         client.land(function(){
             clickEnabled=1;
             console.log("Landed");
             isAirborne=0;
             res.end(JSON.stringify({"clickEnabled": clickEnabled}));
         });
-      }
-      else{
-        res.end(JSON.stringify({"clickEnabled": clickEnabled}));
-      }
+
 
 
 
@@ -153,13 +145,13 @@ function navigate(diffRight, diffDown, callback){
       });
     }
     if(diffDown>0){
-        client.right(SPEED_UP);
+        client.down(SPEED_UP);
         client.after(TIME_UP_COORDINATE*diffDown, function(){
         this.stop();
       });
     }
     else if(diffDown<0){
-        client.right(SPEED_UP);
+        client.up(SPEED_UP);
         client.after(TIME_UP_COORDINATE*diffDown*(-1), function(){
         this.stop();
       });
