@@ -31,4 +31,14 @@ $(document).ready(()=>{
           }
         });
     });
+    $("#clockw").click(function(){
+      $.post("clockwise/",function(data){
+
+      });
+    });
+    $("#anticlockw").click(function(){
+      $.post("anticlockwise/",function(data){
+
+      });
+    });
 });
